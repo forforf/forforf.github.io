@@ -1,0 +1,38 @@
+{
+  "name": "repo-fetcher-ratings",
+  "main": "repo-fetcher-ratings.js",
+  "homepage": "https://github.com/forforf/repo-fetcher-ratings",
+  "authors": [
+    "David Martin <dmarti21@gmail.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/forforf/repo-fetcher-ratings.git"
+  },
+  "description": "Injects ratings into repo objects, if rating informatino is in description",
+  "dependencies": {
+    "angular": "latest",
+    "underscore": "1.5.2",
+    "github-repo-fetcher": "git://github.com/forforf/github-repo-fetcher.git"
+  },
+  "devDependencies": {
+    "angular-mocks": "latest"
+  },
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "7269d58c2e",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "7269d58c2e1b20e46a0bb672ac43292bdc5bfc84"
+  },
+  "_source": "git://github.com/forforf/repo-fetcher-ratings.git",
+  "_target": "*",
+  "_originalSource": "git://github.com/forforf/repo-fetcher-ratings.git"
+}
