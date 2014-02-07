@@ -1,35 +1,72 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+
+    <title>Github Repos</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="index.css">
+
     <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/d3/d3.min.js"></script>
     <script src="bower_components/github-repo-fetcher/github-repo-fetcher.js"></script>
     <script src="bower_components/repo-fetcher-ratings/repo-fetcher-ratings.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="index.js"></script>
 
-    <link rel="stylesheet" href="index.css" />
+
   </head>
 
   <body ng-app="myApp">
     <div ng-controller="RepoCtrl">
-      Hello {{name}}  (Dev Test)
+      <div class="container-fluid">
+        <div class="row">
+            <h1 class="repo-header1"> Current Look at the Github Repos of {{name}}</h1>
+        </div>
+        <div class="row">
+              Hello {{name}}  (Dev Test)
+        </div>
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1">
 
-      <ul> Github Repos Graphed
-        <li ng-repeat="repo in selectedRepos">
-          {{ repo.name }}
-          <repo-graph class="chart" repo="repo"></repo-graph>
-        </li>
-      </ul>
 
-      <div id="test">-------------</div>
-      <!--
-      <ul> Github Repos Listed
-        <li ng-repeat="repo in selectedRepos">
-            <repo-ratings repo="repo"></repo-ratings>
-        </li>
-      </ul>
-      -->
+                <li class="repo-item" ng-repeat="repo in selectedRepos">
+                  <div class="panel panel-default">
+                    <a target="_blank" href="{{repo.html_url}}">{{ repo.name }}</a>
+                    <span ng-show="repo.fork">(fork)</span>
+                    <span class="repo-language"> {{ repo.language }}</span>
+                    <repo-graph class="chart" repo="repo"></repo-graph>
+                   </div>
+                </li>
+              </ul>
+
+
+              <!--
+              <ul> Github Repos Listed
+                <li ng-repeat="repo in selectedRepos">
+                    <repo-ratings repo="repo"></repo-ratings>
+                </li>
+              </ul>
+              -->
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

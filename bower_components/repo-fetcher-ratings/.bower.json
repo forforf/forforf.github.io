@@ -26,11 +26,11 @@
     "test",
     "tests"
   ],
-  "_release": "7269d58c2e",
+  "_release": "7b899a6f62",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "7269d58c2e1b20e46a0bb672ac43292bdc5bfc84"
+    "commit": "7b899a6f626e3ecf0c15f3830966f4ac67c2672a"
   },
   "_source": "git://github.com/forforf/repo-fetcher-ratings.git",
   "_target": "*",

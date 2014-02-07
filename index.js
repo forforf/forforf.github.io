@@ -15,15 +15,15 @@ function RepoCtrl($scope, Repo) {
     };
   }
 
-  $scope.name = 'Superhero';
+  $scope.name = 'forforf';
 
   var initFilters = [
-    {sort: 'name', per_page: 100}
+    {sort: 'updated', per_page: 100}
   ];
   //var initFilters = [];
 
   var baseFilters = [
-    slicerFn(2,22)
+    slicerFn(0,100)
   ];
 
   var allFilters = initFilters.concat(baseFilters);

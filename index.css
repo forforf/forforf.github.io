@@ -17,3 +17,23 @@ a.repo-ratings:hover{
     font: 10px sans-serif;
     text-anchor: start;
 }
+
+.repo-header1 {
+    text-align: center;
+}
+
+.repo-item {
+    display: inline-block;
+    width: 16em;
+    float: left;
+    margin: 0.1em;
+    min-height: 9em;
+}
+
+
+.panel .repo-language {
+    display: inline-block;
+    font-size: 0.8em;
+    float: right;
+    margin-right: 1em;
+}
