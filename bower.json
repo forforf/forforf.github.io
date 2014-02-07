@@ -14,6 +14,7 @@
   "dependencies":{
     "angular": "latest",
     "underscore": "1.5.2",
+    "d3": "latest",
     "repo-fetcher-ratings": "git://github.com/forforf/repo-fetcher-ratings.git"
   },
   "devDependencies": {

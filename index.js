@@ -18,12 +18,12 @@ function RepoCtrl($scope, Repo) {
   $scope.name = 'Superhero';
 
   var initFilters = [
-    {sort: 'name', per_page: 20}
+    {sort: 'name', per_page: 100}
   ];
   //var initFilters = [];
 
   var baseFilters = [
-    slicerFn(8,12)
+    slicerFn(2,22)
   ];
 
   var allFilters = initFilters.concat(baseFilters);

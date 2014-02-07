@@ -3,6 +3,7 @@
   <head>
     <script src="bower_components/underscore/underscore-min.js"></script>
     <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/d3/d3.min.js"></script>
     <script src="bower_components/github-repo-fetcher/github-repo-fetcher.js"></script>
     <script src="bower_components/repo-fetcher-ratings/repo-fetcher-ratings.js"></script>
     <script src="index.js"></script>
@@ -14,14 +15,21 @@
     <div ng-controller="RepoCtrl">
       Hello {{name}}  (Dev Test)
 
-      <ul> Github Repos
+      <ul> Github Repos Graphed
         <li ng-repeat="repo in selectedRepos">
-          <repo-graph class="chart" repo="repo"><repo-graph>
+          {{ repo.name }}
+          <repo-graph class="chart" repo="repo"></repo-graph>
+        </li>
+      </ul>
+
+      <div id="test">-------------</div>
+      <!--
+      <ul> Github Repos Listed
+        <li ng-repeat="repo in selectedRepos">
             <repo-ratings repo="repo"></repo-ratings>
         </li>
       </ul>
-      <div id="test">-------------</div>
-
+      -->
     </div>
   </body>
 </html>
