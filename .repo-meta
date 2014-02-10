@@ -1,0 +1,12 @@
+---
+tags:
+  - tag1
+  - tag2
+rating:
+  stable: 4
+  useful: 8
+  caliber: 7
+  tidy: 7
+  tended: 9
+  tests: 1
+  unique: 4
