@@ -12,7 +12,8 @@
   "description": "Fetches repo data, with flexible sorting and filtering",
   "dependencies": {
     "angular": "latest",
-    "underscore": "1.5.2"
+    "underscore": "1.5.2",
+    "angular-etag": "git://github.com/forforf/angular-etag.git"
   },
   "devDependencies": {
     "angular-mocks": "latest"
@@ -25,11 +26,11 @@
     "test",
     "tests"
   ],
-  "_release": "8ed4385624",
+  "_release": "03221e53a1",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "8ed4385624e2c808a6c37cbffaf27582a9c0b683"
+    "commit": "03221e53a114eb155413f17c55c9921540c09bbf"
   },
   "_source": "git://github.com/forforf/github-repo-fetcher.git",
   "_target": "*",
