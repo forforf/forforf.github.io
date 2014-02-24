@@ -1,14 +1,14 @@
 ---
-tags:
-  - tag1
-  - tag2
 ratings:
-  stable: 4
+  stable: 6
   useful: 8
-  caliber: 7
-  tidy: 7
-  tended: 9
-  tests: 1
-  unique: 4
-abandoned: false
+  caliber: 6
+  tidy: 5
+  tended: 8
+  tests: 7
+  unique: 6
+progress:
+  "in development":
+    "active development": null
+
 

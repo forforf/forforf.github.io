@@ -1,188 +1,26 @@
 'use strict';
 
-angular.module('RepoFetcherRatings', ['GithubRepoFetcher'])
+angular.module('RepoFetcherRatings', [])
 
-  .factory('Repo', function ($q, GithubRepo, qChain) {
-    var CONFIG = {
-      ratingPrefix: '_rating_:'
-    };
-
-    function ApiMismatchError(message) {
-      this.name = 'ApiMismatchError';
-      this.message = (message || '');
-    }
-    ApiMismatchError.prototype = Error.prototye;
-
-    function objButNotAryOrFn(o){
-      return (_.isObject(o) && !(_.isArray(o)) && !(_.isFunction(o)));
-    }
-
-    function modelArgHandler(argums){
-      var modelArgs = {};
-      if(argums.length<1){
-        return $q.reject(new Error('Need at least one argument for initBaseMdoel'));
-      }
-
-      var args = Array.prototype.slice.call(argums);
-
-      var strArgs = args.filter( function(i){ return _.isString(i); });
-      if(strArgs.length>1){
-        return $q.reject(new Error('Cannot initBaseModel with multiple users: ' + strArgs.join(', ')));
-      }
-
-      var arrArgNested = args.filter( function(i){ return _.isArray(i); });
-      if(arrArgNested.length ===0){
-        arrArgNested = [[]];
-      }
-
-      var arrArgs = arrArgNested.reduce(function(combined, cur){
-        combined.concat(cur);
-        return combined;
-      });
-
-
-      var optArgs = args.filter( function(i){ return objButNotAryOrFn(i) });
-      if(optArgs.length>1){
-        return $q.reject(new Error('Cannot initBaseModel with multiple option args'));
-      }
-
-      modelArgs.user = strArgs[0];
-      modelArgs.filters = arrArgs;
-      modelArgs.opts = optArgs[0];
-
-      return modelArgs;
-    }
-
-
-    var baseModel = {};
-
-    function insertRatings(repos){
-      var reposWithRatings = repos.map(function(repo){
-        var desc;
-        if(repo.description){
-          desc = repo.description;
-        } else {
-          repo.__rating = new ApiMismatchError('API missing description field');
-          return repo;
-        }
-
-        var r = desc.split(CONFIG.ratingPrefix)[1];
-        if(r){
-          try{
-            repo.__rating = JSON.parse(r);
-          } catch(e) {
-            repo.__rating = e;
-          }
-        } else {
-         repo.__rating = null;
-        }
-        return repo;
-      });
-      return reposWithRatings;
-    }
-
-    function storeUserRepos(user, filters){
-      baseModel[user] = {};
-      return function(repos){
-        baseModel[user] = repos;
-        return repos;
-      }
-    }
-
-    //baseModel iterates over the raw repo data objects
-    //and inserts the rating data
-    // arguments, string - user, array - filters, object - options
-    function initBaseModel(){
-      // argument handler
-      var args = modelArgHandler( arguments );
-      var user = args.user;
-      var filters = args.filters;
-
-
-      if (!(_.isArray(filters))){
-        filters = [];
-      }
-
-      //adds ratings to last set of repos in filter chain
-      filters.push(insertRatings);
-
-      //fetch from github
-      return GithubRepo.fetcher(user, filters)
-        .then(storeUserRepos(user, filters))
-
-    }
-
-    function getBaseModel(user, filters){
-      var args = modelArgHandler( arguments );
-      var user = args.user;
-      var filters = args.filters;
-      var opts = args.opts || {};
-      var doInit = opts.init;
-
-      if(doInit){
-        // initialize direct from repo
-        return initBaseModel(user, filters, opts);
-      } else {
-
-        var baseModelFn = function(){
-          return $q.when(baseModel[user]);
-        };
-        // operate on cached repo model
-        return qChain.generator(baseModelFn, filters);
-      }
-
-
-      //var qChain = GithubRepo.generator(x, filters)// need to implement qChain for local collection
-
-    }
-
-
-    return {
-      initBaseModel: initBaseModel,
-      getBaseModel: getBaseModel
-    };
-  })
-
-  .directive('repoRatings', function(){
-    return {
-      restrict: 'E',
-      scope: {
-        repo: '='
-      },
-      templateUrl: 'templates/repo-list.html'
-    };
-  })
-
-  .directive('repoGraph', function(){
-    function link(scope, element, attrs){
-      var defaultConfig = {
-        indentBarsPx: 50,
-        textPxFactor: 6,
-        leftMarginLabel: 4,
-        noDataTemplate: '<div>-- No Ratings --</div>',
-        maxRatingValue: 10,
-        minRatingValue: 0,
-        widthPx: 150,
-        heightPx: 10,
-        leftIndentPx: 0,
-        rightIndentPx: 50,
-        ratingLabelTextSize: '0.35em'
-      };
-
-      var config = _.extend({}, scope.graphConfig||{}, defaultConfig);
-
+  .factory('ratingChart', function () {
+    function makeRatingChart(ratingData, element, config){
       function transStr(x, y){
         return "translate("+x+"," +y+ ")";
       }
 
-      var ratingData = scope.repo.__rating;
+
+
+      console.log('ratingData', ratingData);
+
       if(!ratingData){
-        return element.append(config.noDataTemplate);
+        return element.html(config.noDataTemplate);
+      } else {
+        element.html('');
       }
 
       // ratingData = {a:1, ab:2, abc:3, abcd:4, abcde:5, abcdef:6, abcdefg:7, abcdefgh: 8, abcdefghi: 9, abcdefghij:8, abcdefghijk:7, abcdefghijkl:6, abcdefghijklm:5};
 
-      console.log('repoGraph', scope.repo.__rating);
+      console.log('repoGraph', ratingData);
 
       //data is the rating value
       var data = Object.keys(ratingData).map(function(k){
@@ -209,7 +47,8 @@ angular.module('RepoFetcherRatings', ['GithubRepoFetcher'])
         .domain([config.minRatingValue, config.maxRatingValue])
         .range([config.leftIndentPx, width-config.rightIndentPx]);
 
-      var chart = d3.select(element[0]).append("svg")
+      var chart = d3.select(element[0])
+        .append("svg")
         .attr("width", width)
         .attr("height", barHeight * data.length);
 
@@ -239,13 +78,64 @@ angular.module('RepoFetcherRatings', ['GithubRepoFetcher'])
         .text(function(d, i) { return data[i]; });
 
     }
+    return makeRatingChart;
+  })
+
+  .directive('repoRatings', function(){
 
     return {
       restrict: 'E',
       scope: {
-        repo: '='
+        url: '=',
+        name: '=',
+        ratings: '='
       },
-      replace: false,
+      template:  [
+        '<ul class="repo-ratings"><a class="repo-ratings" href="{{rurl}}">{{ name }}</a>',
+        '<li class="repo-ratings" ng-repeat="(k,v) in ratings">',
+        '{{k}}: {{v}}',
+        '</li>',
+        '</ul>'
+      ].join("\n"),
+      link: function (scope, elem, attrs) {
+        //not used
+      }
+    };
+  })
+
+  .directive('repoGraph', function(ratingChart){
+
+
+    function link(scope, element, attrs){
+      var defaultConfig = {
+        indentBarsPx: 50,
+        textPxFactor: 6,
+        leftMarginLabel: 4,
+        noDataTemplate: '<div>-- No Ratings --</div>',
+        maxRatingValue: 10,
+        minRatingValue: 0,
+        widthPx: 150,
+        heightPx: 10,
+        leftIndentPx: 0,
+        rightIndentPx: 50,
+        ratingLabelTextSize: '0.35em'
+      };
+
+      scope.$watch('ratings', function(newVal, oldVal){
+        console.log('watched', newVal, oldVal);
+        var config = _.extend({}, scope.graphConfig||{}, defaultConfig);
+
+        ratingChart(newVal, element, config);
+
+      });
+    }
+
+    return {
+      restrict: 'E',
+      scope: {
+        ratings: '='
+      },
+      replace: true,
       template: '<div></div>',
       link: link
     };

@@ -26,11 +26,11 @@
     "test",
     "tests"
   ],
-  "_release": "03221e53a1",
+  "_release": "5d71952f55",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "03221e53a114eb155413f17c55c9921540c09bbf"
+    "commit": "5d71952f55fb3068aecf0d8c25217d0a8a4ed9cd"
   },
   "_source": "git://github.com/forforf/github-repo-fetcher.git",
   "_target": "*",

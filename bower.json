@@ -16,7 +16,8 @@
     "underscore": "1.5.2",
     "d3": "latest",
     "bootstrap": "latest",
-    "repo-fetcher-ratings": "git://github.com/forforf/repo-fetcher-ratings.git"
+    "repo-fetcher-ratings": "git://github.com/forforf/repo-fetcher-ratings.git",
+    "repo-fetcher-meta": "git://github.com/forforf/repo-fetcher-meta.git"
   },
   "devDependencies": {
     "angular-mocks":"latest"

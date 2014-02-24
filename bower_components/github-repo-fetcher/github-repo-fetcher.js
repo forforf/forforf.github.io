@@ -2,6 +2,13 @@
 
 angular.module('GithubRepoFetcher', ['AngularEtag'])
 
+  .config(['$httpProvider', function($httpProvider) {
+    $httpProvider.defaults.useXDomain = true;
+    //delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
+  }
+  ])
+
   .factory('qChain', function () {
 
     function chainErrorHandler(err) {
@@ -29,6 +36,9 @@ angular.module('GithubRepoFetcher', ['AngularEtag'])
 
   .factory('GithubRepo', function (ehttp, qChain) {
 
+    // will contain headers after a fetch
+    var headers;
+
     //filters is an array
     // if an item is an object, it will be merged with any other objects
     // and the merged object will be sent to the repo as url query parameters
@@ -37,7 +47,16 @@ angular.module('GithubRepoFetcher', ['AngularEtag'])
     // each function is applied in order (each filter function must accept and
     // return an array of repo objects. Note the fn in the array must be a
     // fn that returns the fn to apply.
-    function fetcher(username, filters) {
+    function fetcher(credentials, filters) {
+      var username;
+      var pw;
+
+      if(typeof credentials === 'string'){
+        username = credentials;
+      } else {
+        username = credentials.username;
+        pw = credentials.password;
+      }
 
       if (!(_.isArray(filters))){
         filters = [];
@@ -60,8 +79,16 @@ angular.module('GithubRepoFetcher', ['AngularEtag'])
         params: reqFilters
       };
 
+      if(pw){
+        var basicAuth = btoa(username+':'+pw);
+        //urlOpts.headers = urlOpts.headers || {};
+        //urlOpts.headers.Authorization = 'Basic ' + basicAuth
+        ehttp.defaults.headers.common['Authorization'] = 'Basic ' + basicAuth;
+      }
+
       var fetcherFn = function () {
-        return ehttp.get(urlOpts).then(function (resp) {
+        return ehttp.etagGet(urlOpts).then(function (resp) {
+          headers = resp.headers();
           return resp.data;
         });
       };
@@ -70,7 +97,10 @@ angular.module('GithubRepoFetcher', ['AngularEtag'])
       return filteredRepos(fetcherFn, respFilters);
     }
 
+    function headers(){ return headers; }
+
     return {
-      fetcher: fetcher
+      fetcher: fetcher,
+      headers: headers
     };
   });

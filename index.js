@@ -1,9 +1,22 @@
-var myApp = angular.module('myApp',[ 'RepoFetcherRatings']);
+var myApp = angular.module('myApp',[ 'GithubRepoFetcher', 'RepoFetcherMeta', 'RepoFetcherRatings']);
 
 //myApp.directive('myDirective', function() {});
 //myApp.factory('myService', function() {});
 
-function RepoCtrl($scope, Repo) {
+function RepoCtrl($scope, GithubRepo, qChain, RepoMeta, $q) {
+
+  function setSelectedRepos(repos){
+    $scope.selectedRepos = repos;
+    console.log(repos);
+    return repos;
+  }
+
+  function addRepoMeta(repos){
+    RepoMeta.insertRepoMeta(repos).then(function(repos){
+      $scope.selectedRepos = repos;
+      return repos;
+    });
+  }
 
   $scope.graphConfig = {
   };
@@ -18,7 +31,7 @@ function RepoCtrl($scope, Repo) {
   $scope.name = 'forforf';
 
   var initFilters = [
-    {sort: 'updated', per_page: 100}
+    {sort: 'updated', per_page: 5}
   ];
   //var initFilters = [];
 
@@ -26,16 +39,23 @@ function RepoCtrl($scope, Repo) {
     slicerFn(0,100)
   ];
 
-  var allFilters = initFilters.concat(baseFilters);
 
-  initFromRepo = Repo.getBaseModel('forforf', allFilters, {init: true});
+  $scope.fetch = function(){
+    //var allFilters = initFilters.concat(baseFilters);
 
-  function setSelectedRepos(repos){
-    $scope.selectedRepos = repos;
-    console.log(repos);
-    return repos;
+    //debug
+    var allFilters = initFilters;
+    // -- debug
+    var creds = {username: $scope.name, password: $scope.pw};
+    initFromRepo = GithubRepo.fetcher(creds, allFilters, {init: true});
+
+
+
+
+
+    initFromRepo
+      .then(setSelectedRepos)
+      .then(addRepoMeta)
+    ;
   }
-
-  initFromRepo
-    .then(setSelectedRepos);
 }
