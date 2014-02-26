@@ -24,11 +24,11 @@
     "test",
     "tests"
   ],
-  "_release": "afde86b2ca",
+  "_release": "c8e6df3caa",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "afde86b2cac0586e8deb6be8e49680db20662836"
+    "commit": "c8e6df3caaae12a3f0de28f83ec93e7a51c1a8ca"
   },
   "_source": "git://github.com/forforf/angular-etag.git",
   "_target": "*",

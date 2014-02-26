@@ -11,16 +11,17 @@
     "url": "git://github.com/forforf/dashboard.git"
   },
   "description": "Show github status including custom repo ratings (see github-repo-fetcher and repo-fetcher-ratings)",
-  "dependencies":{
+  "dependencies": {
     "angular": "latest",
     "underscore": "1.5.2",
     "d3": "latest",
     "bootstrap": "latest",
     "repo-fetcher-ratings": "git://github.com/forforf/repo-fetcher-ratings.git",
-    "repo-fetcher-meta": "git://github.com/forforf/repo-fetcher-meta.git"
+    "repo-fetcher-meta": "git://github.com/forforf/repo-fetcher-meta.git",
+    "momentjs": "~2.5.1"
   },
   "devDependencies": {
-    "angular-mocks":"latest"
+    "angular-mocks": "latest"
   },
   "license": "MIT",
   "ignore": [

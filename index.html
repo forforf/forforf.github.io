@@ -31,19 +31,28 @@
     <script src="bower_components/js-yaml/js-yaml.min.js"></script>
     <script src="bower_components/repo-fetcher-meta/repo-fetcher-meta.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/momentjs/moment.js"></script>
     <script src="index.js"></script>
-
 
   </head>
 
   <body ng-app="myApp">
     <div ng-controller="RepoCtrl">
       <div class="container-fluid">
-        <div class="row">
+        <div class="row" ng-init="fetch(4)">
           Github User Name: <input type="text" ng-model="name">
           Github Password (optional)*: <input type="password" ng-model="pw">
           * Without a pasword, Github limits new requests to 60
           <button ng-click="fetch()">Get repo data</button>
+        </div>
+        <div>
+          API requests remaining: {{rateLimit.remaining || '--'}}
+        </div>
+        <div>
+          Reset Time: {{rateLimit.resetTime || '--'}}
+        </div>
+        <div ng-show="rateLimit.fromCache">
+          Served from cache, no impact to rate limit
         </div>
 
         <div class="row">
@@ -51,19 +60,56 @@
         </div>
 
         <div class="row">
-          <div class="col-md-10 col-md-offset-1">
+          <div class="col-md-2">
+            <div class="sidebar-nav-fixed affix">
+              Mini Widgets to go here
+              <div>
+                foo
+              </div>
+              <div>
+                foo
+              </div>
+              <div>
+                foo
+              </div>
+              </div>
+          </div>
+
+          <div class="col-md-2 col-md-offset-10">
+            <div class="sidebar-nav-fixed affix pull-right">
+              Controls to go here
+              <div>
+                foo
+              </div>
+              <div>
+                foo
+              </div>
+              <div>
+                foo
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-8 col-md-offset-2">
 
 
-                <li class="repo-item" ng-repeat="repo in selectedRepos">
-                  <div class="panel panel-default">
-                    <a target="_blank" href="{{repo.html_url}}">{{ repo.name }}</a>
-                    <span ng-show="repo.fork">(fork)</span>
-                    <span class="repo-language"> {{ repo.language }}</span>
-                    <repo-graph class="chart" ratings="repo._ff_meta_.ratings">
-                    </repo-graph>
-                   </div>
-                </li>
-              </ul>
+            <li class="repo-item" ng-repeat="repo in selectedRepos">
+              <div class="panel panel-default">
+                <div class="panel-label {{ cfg.progressClass(repo) }}">
+                  <a target="_blank" href="{{repo.html_url}}">{{ repo.name }}</a>
+                  <span ng-show="repo.fork">(fork)</span>
+                  <span class="repo-language"> {{ repo.language }}</span>
+                  <span class="repo-description">
+                    {{repo.description | limitTo:cfg.panelDescriptionLength }}
+                  </span>
+                </div>
+                  <repo-graph class="chart" ratings="repo._ff_meta_.ratings">
+                  </repo-graph>
+                  {{ progressClass(repo) }}
+              </div>
+
+            </li>
+            </ul>
 
 
             <!--
@@ -81,6 +127,9 @@
               </li>
             </ul>
             -->
+          </div>
+
+
         </div>
       </div>
     </div>
