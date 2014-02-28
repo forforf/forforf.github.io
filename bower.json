@@ -18,7 +18,8 @@
     "bootstrap": "latest",
     "repo-fetcher-ratings": "git://github.com/forforf/repo-fetcher-ratings.git",
     "repo-fetcher-meta": "git://github.com/forforf/repo-fetcher-meta.git",
-    "momentjs": "~2.5.1"
+    "momentjs": "~2.5.1",
+    "angular-route": "~1.2.13"
   },
   "devDependencies": {
     "angular-mocks": "latest"

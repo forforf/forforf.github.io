@@ -24,6 +24,7 @@
     <script src="bower_components/underscore/underscore-min.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-route/angular-route.min.js"></script>
     <script src="bower_components/d3/d3.min.js"></script>
     <script src="bower_components/angular-etag/angular-etag.js"></script>
     <script src="bower_components/github-repo-fetcher/github-repo-fetcher.js"></script>
@@ -32,7 +33,9 @@
     <script src="bower_components/repo-fetcher-meta/repo-fetcher-meta.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/momentjs/moment.js"></script>
-    <script src="index.js"></script>
+    <!-- angular app files -->
+    <script src="app/app.js"></script>
+    <script src="app/dashboard/dashboard.js"></script>
 
   </head>
 
@@ -91,25 +94,9 @@
           </div>
 
           <div class="col-md-8 col-md-offset-2">
+            <div ng-include="mainView.url"></div>
 
-
-            <li class="repo-item" ng-repeat="repo in selectedRepos">
-              <div class="panel panel-default">
-                <div class="panel-label {{ cfg.progressClass(repo) }}">
-                  <a target="_blank" href="{{repo.html_url}}">{{ repo.name }}</a>
-                  <span ng-show="repo.fork">(fork)</span>
-                  <span class="repo-language"> {{ repo.language }}</span>
-                  <span class="repo-description">
-                    {{repo.description | limitTo:cfg.panelDescriptionLength }}
-                  </span>
-                </div>
-                  <repo-graph class="chart" ratings="repo._ff_meta_.ratings">
-                  </repo-graph>
-                  {{ progressClass(repo) }}
-              </div>
-
-            </li>
-            </ul>
+            <!-- main window: see dashboard.html -->
 
 
             <!--

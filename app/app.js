@@ -1,7 +1,28 @@
-var myApp = angular.module('myApp',[ 'GithubRepoFetcher', 'RepoFetcherMeta', 'RepoFetcherRatings']);
+'use strict';
+
+var myApp = angular.module('myApp',[
+  'ngRoute',
+  'GithubRepoFetcher',
+  'RepoFetcherMeta',
+  'RepoFetcherRatings'
+]);
+
+
+//angular.module('app.controllers');
+
+//myApp.config(function($routeProvider, $locationProvider) {
+//  $routeProvider.when('/dashboard', {
+//    templateUrl: 'app/dashboard/dashboard.html',
+//    controller: 'DashboardCtrl'
+//    //resolve: {/* dependencies go here */ }
+//  });
+//  // configure html5 to get links working on jsfiddle
+//  $locationProvider.html5Mode(true);
+//});
 
 //myApp.directive('myDirective', function() {});
 //myApp.factory('myService', function() {});
+
 
 function RepoCtrl($scope, GithubRepo, qChain, RepoMeta, $q) {
   var cfg = $scope.cfg = {};
@@ -15,6 +36,9 @@ function RepoCtrl($scope, GithubRepo, qChain, RepoMeta, $q) {
     }
     return name || "";
   };
+
+  $scope.mainView = {};
+  $scope.mainView.url = 'app/dashboard/dashboard.html'
 
 
   var rateLimit = $scope.rateLimit = {};
@@ -47,6 +71,12 @@ function RepoCtrl($scope, GithubRepo, qChain, RepoMeta, $q) {
     return repos;
 
   }
+
+//  function setDownlaodedRepos(repos){
+//    repoData.downloadedRepos = repos;
+//    console.log(repos);
+//    return repos;
+//  }
 
   function setSelectedRepos(repos){
     $scope.selectedRepos = repos;
@@ -93,15 +123,11 @@ function RepoCtrl($scope, GithubRepo, qChain, RepoMeta, $q) {
     //var allFilters = initFilters;
     // -- debug
     var creds = {username: $scope.name, password: $scope.pw};
-    initFromRepo = GithubRepo.fetcher(creds, allFilters, {init: true});
-
-
-
-
-
+    var initFromRepo = GithubRepo.fetcher(creds, allFilters, {init: true});
 
     initFromRepo
       .then(getRateLimits)
+      //.then(setDownloadedRepos)
       .then(setSelectedRepos)
       .then(addRepoMeta)
     ;
