@@ -24,53 +24,24 @@ var myApp = angular.module('myApp',[
 //myApp.factory('myService', function() {});
 
 
-function RepoCtrl($scope, GithubRepo, qChain, RepoMeta, $q) {
-  var cfg = $scope.cfg = {};
-  cfg.panelDescriptionLength = 40;
+function RepoCtrl($scope, $timeout, RepoService, ConfigService) {
 
-  cfg.progressClass = function(repo){
-    console.log('progress class', repo._ff_meta_ && repo._ff_meta_.progress);
-    var name = repo._ff_meta_ && repo._ff_meta_.progress;
-    if (name) {
-      return getChildNames(name)[0].replace(/\s/g, "-");
-    }
-    return name || "";
-  };
+  $scope.cfg = ConfigService;
 
   $scope.mainView = {};
-  $scope.mainView.url = 'app/dashboard/dashboard.html'
+  $scope.mainView.url = 'app/dashboard/dashboard.html';
 
+  $scope.apiRateLimit = {};
+  $scope.apiRateLimit.url = 'app/api-rate-limit/api-rate-limit.html';
 
-  var rateLimit = $scope.rateLimit = {};
-
-  function getChildNames(obj){
-    console.log(obj);
-    if (!obj) {
-      return [];
-    }
-
-    if (!Object.keys(obj).length ) {
-      return [];
-    }
-    var name = Object.keys(obj).map(function(k){ return k.toString(); })
-    console.log('child name', name);
-    return name;
-  }
-
-  //side affect function
-  function getRateLimits(repos){
-    // Stinky - see parent module for details
-    var headers = GithubRepo.headers();
-    rateLimit.fromCache = headers['X-Local-Cache'];
-
-    var remaining = headers['x-ratelimit-remaining'];
-    var reset = headers['x-ratelimit-reset'];
-    rateLimit.remaining = remaining && parseInt(remaining);
-    rateLimit.resetTime = reset && moment.unix( parseInt(reset)).fromNow();
-
-    return repos;
-
-  }
+//  function setRateLimits(returnedRateLimit){
+//    $timeout(function(){
+//      console.log('Set RateLimit', returnedRateLimit);
+//      //$scope.rateLimit = returnedRateLimit;
+//      console.log('scope', $scope);
+//    })
+//
+//  }
 
 //  function setDownlaodedRepos(repos){
 //    repoData.downloadedRepos = repos;
@@ -80,15 +51,18 @@ function RepoCtrl($scope, GithubRepo, qChain, RepoMeta, $q) {
 
   function setSelectedRepos(repos){
     $scope.selectedRepos = repos;
-    console.log(repos);
+    //ToDo: this will move to a download specific function
+    RepoService.setSelected(repos);
+    console.log('setSelectedRepos wrapping up', repos);
     return repos;
   }
 
   function addRepoMeta(repos){
-    RepoMeta.insertRepoMeta(repos).then(function(repos){
-      $scope.selectedRepos = repos;
-      return repos;
-    });
+    return RepoService.addRepoMeta(repos);
+    //RepoMeta.insertRepoMeta(repos).then(function(repos){
+    //  $scope.selectedRepos = repos;
+    //  return repos;
+    //});
   }
 
   $scope.graphConfig = {
@@ -96,7 +70,6 @@ function RepoCtrl($scope, GithubRepo, qChain, RepoMeta, $q) {
 
   function slicerFn(start, stop){
     return function(repos){
-      console.log('slicey dicey');
       return(repos.slice(start, stop+1));
     };
   }
@@ -123,10 +96,12 @@ function RepoCtrl($scope, GithubRepo, qChain, RepoMeta, $q) {
     //var allFilters = initFilters;
     // -- debug
     var creds = {username: $scope.name, password: $scope.pw};
-    var initFromRepo = GithubRepo.fetcher(creds, allFilters, {init: true});
+    //var initFromRepo = GithubRepo.fetcher(creds, allFilters);
+
+    var initFromRepo = RepoService.downloadRepo(creds, allFilters)
 
     initFromRepo
-      .then(getRateLimits)
+      //.then(getRateLimits)
       //.then(setDownloadedRepos)
       .then(setSelectedRepos)
       .then(addRepoMeta)

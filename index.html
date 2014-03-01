@@ -35,7 +35,10 @@
     <script src="bower_components/momentjs/moment.js"></script>
     <!-- angular app files -->
     <script src="app/app.js"></script>
-    <script src="app/dashboard/dashboard.js"></script>
+    <script src="app/common/repo-service.js"></script>
+    <script src="app/common/config-service.js"></script>
+    <script src="app/dashboard/dashboard-controller.js"></script>
+    <script src="app/api-rate-limit/api-rate-limit-controller.js"></script>
 
   </head>
 
@@ -48,15 +51,8 @@
           * Without a pasword, Github limits new requests to 60
           <button ng-click="fetch()">Get repo data</button>
         </div>
-        <div>
-          API requests remaining: {{rateLimit.remaining || '--'}}
-        </div>
-        <div>
-          Reset Time: {{rateLimit.resetTime || '--'}}
-        </div>
-        <div ng-show="rateLimit.fromCache">
-          Served from cache, no impact to rate limit
-        </div>
+        <div ng-include="apiRateLimit.url"></div>
+
 
         <div class="row">
             <h1 class="repo-header1">Github Repos of {{name}}</h1>

@@ -1,13 +1,13 @@
   <ul ng-controller="DashboardCtrl">
-    <li class="repo-item" ng-repeat="repo in selectedRepos">
+    <li class="repo-item" ng-repeat="repo in repos.selected">
       <div class="panel panel-default">
         <div class="panel-label {{ cfg.progressClass(repo) }}">
           <a target="_blank" href="{{repo.html_url}}">{{ repo.name }}</a>
           <span ng-show="repo.fork">(fork)</span>
           <span class="repo-language"> {{ repo.language }}</span>
-                      <span class="repo-description">
-                        {{repo.description | limitTo:cfg.panelDescriptionLength }}
-                      </span>
+          <span class="repo-description">
+            {{repo.description | limitTo:cfg.panelDescriptionLength }}
+          </span>
         </div>
         <repo-graph class="chart" ratings="repo._ff_meta_.ratings">
         </repo-graph>
