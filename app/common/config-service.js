@@ -28,9 +28,11 @@ angular.module('myApp').factory('configService',
       return name || "";
     };
 
-    cfg.defaultRepoSrot = 'updated';
+    cfg.repoSort = 'updated';
 
-    cfg.defaultFetchLimit = 100;
+    cfg.fetchLimit = {};
+    cfg.fetchLimit.unauth = 1;
+    cfg.fetchLimit.auth = 16;
 
     return cfg;
   }

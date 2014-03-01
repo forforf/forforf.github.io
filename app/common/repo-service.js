@@ -64,16 +64,26 @@ angular.module('myApp').factory('repoService',
       $rootScope.$broadcast('REPOS_UPDATE_DONE')
     }
 
+    function defaultFetchLimit(){
+      var defaultFetchLimit = configService.fetchLimit.unauth;
+      console.log('pw', credsService.password);
+      if (credsService.password && credsService.password.length>0){
+        defaultFetchLimit = configService.fetchLimit.auth;
+      }
+      return defaultFetchLimit;
+    }
+
     function repoFetch(apiFetchLimit){
-      apiFetchLimit = apiFetchLimit || configService.defaultFetchLimit;
+
+      apiFetchLimit = apiFetchLimit || defaultFetchLimit();
 
       var initFilters = [
-        {sort: configService.defaultRepoSrot, per_page: apiFetchLimit}
+        {sort: configService.repoSort, per_page: apiFetchLimit}
       ];
       //var initFilters = [];
 
       var baseFilters = [
-        slicerFn(0,8)
+        slicerFn(0,20)
       ];
 
       var allFilters = initFilters.concat(baseFilters);
