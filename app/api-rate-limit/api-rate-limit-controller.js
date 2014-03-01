@@ -1,15 +1,15 @@
 'use strict';
 
-angular.module('myApp').controller('ApiRateLimitCtrl', function($scope, $timeout, RepoService){
+angular.module('myApp').controller('ApiRateLimitCtrl', function($scope, $timeout, repoService, credsService){
   $scope.rateLimit = {};
 
   //ToDo: move to own component
   $scope.$on('REPOS_UPDATE_SELECTED', function(){
-    var creds = {username: $scope.name, password: $scope.pw};
+    var creds = credsService;
     //delay to let things sort out
     $timeout(
       function(){
-        RepoService.getRateLimits(creds)
+        repoService.getRateLimits(creds)
           .then(function(resp){
             var rateResp = resp && resp.rate
             var remaining = rateResp && rateResp.remaining;

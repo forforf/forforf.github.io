@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp').factory('ConfigService',
+angular.module('myApp').factory('configService',
   function(){
 
     function getChildNames(obj){
@@ -15,11 +15,11 @@ angular.module('myApp').factory('ConfigService',
       return name;
     }
 
+
     //ToDo: Get config from a ng-model
     var cfg = {};
 
     cfg.panelDescriptionLength = 40;
-
     cfg.progressClass = function(repo){
       var name = repo._ff_meta_ && repo._ff_meta_.progress;
       if (name) {
@@ -27,6 +27,10 @@ angular.module('myApp').factory('ConfigService',
       }
       return name || "";
     };
+
+    cfg.defaultRepoSrot = 'updated';
+
+    cfg.defaultFetchLimit = 100;
 
     return cfg;
   }

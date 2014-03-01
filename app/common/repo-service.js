@@ -1,10 +1,11 @@
 'use strict';
 
-angular.module('myApp').factory('RepoService',
-  function($rootScope, GithubRepo, RepoMeta){
+angular.module('myApp').factory('repoService',
+  function($rootScope, GithubRepo, RepoMeta, configService, credsService){
     var repos = {};
     repos.downloaded = {};
     repos.selected = {};
+    repos.final = {};
     repos.rateLimit = {};
 
     //side affect function
@@ -15,27 +16,6 @@ angular.module('myApp').factory('RepoService',
       updater(nul, repos.rateLimit);
     }
 
-//    function setRateLimits(creds, rateLimitCallback){
-//      return function(repoObjs){
-//        // Stinky - see parent module for details
-//        var headers = GithubRepo.headers();
-//        GithubRepo.rateLimits(creds).then(function(resp){
-//          console.log('rate limit gh', resp);
-//          return resp;
-//        });
-//        repos.rateLimit.fromCache = headers['X-Local-Cache'];
-//
-//        var remaining = headers['x-ratelimit-remaining'];
-//        var reset = headers['x-ratelimit-reset'];
-//        repos.rateLimit.remaining = remaining && parseInt(remaining);
-//        repos.rateLimit.resetTime = reset && moment.unix( parseInt(reset)).fromNow();
-//
-//        if (rateLimitCallback) { rateLimitCallback(repos.rateLimit); }
-//
-//        return repoObjs;
-//      }
-//
-//    }
 
     function getRateLimits(creds){
       return GithubRepo.rateLimits(creds);
@@ -53,22 +33,71 @@ angular.module('myApp').factory('RepoService',
     function setReposSelected(setRepos){
       repos.selected = setRepos;
       $rootScope.$broadcast('REPOS_UPDATE_SELECTED');
+      return setRepos;
     }
 
     function addRepoMeta(repos){
       return RepoMeta.insertRepoMeta(repos)
         .then(function(repos){
+          console.log('addRepoMeta', repos);
           //$rootScope.$broadcast('REPOS_UPDATE_META_ADDED');
           return repos;
         });
     }
 
+    function slicerFn(start, stop){
+      return function(repos){
+        return(repos.slice(start, stop+1));
+      };
+    }
+
+//    function setSelectedRepos(repos){
+//      $scope.selectedRepos = repos;
+//      //ToDo: this will move to a download specific function
+//      repoService.setSelected(repos);
+//      console.log('setSelectedRepos wrapping up', repos);
+//      return repos;
+//    }
+
+    function doneFetching(fetchedRepos){
+      repos.final = fetchedRepos;
+      $rootScope.$broadcast('REPOS_UPDATE_DONE')
+    }
+
+    function repoFetch(apiFetchLimit){
+      apiFetchLimit = apiFetchLimit || configService.defaultFetchLimit;
+
+      var initFilters = [
+        {sort: configService.defaultRepoSrot, per_page: apiFetchLimit}
+      ];
+      //var initFilters = [];
+
+      var baseFilters = [
+        slicerFn(0,8)
+      ];
+
+      var allFilters = initFilters.concat(baseFilters);
+      //var allFilters = cfg.allfilters();
+
+      var initFromRepo = downloadRepos(credsService, allFilters);
+
+      return initFromRepo
+        //.then(getRateLimits)
+        //.then(setDownloadedRepos)
+        .then(setReposSelected)
+        .then(addRepoMeta)
+        .then(doneFetching)
+      ;
+    }
+
     return {
       setSelected: setReposSelected,
       getSelected: function(){ return repos.selected },
+      getFinal: function(){ return repos.final },
       downloadRepo: downloadRepos,
       getRateLimits: getRateLimits,
-      addRepoMeta: addRepoMeta
+      addRepoMeta: addRepoMeta,
+      fetch: repoFetch
 
     }
 

@@ -1,0 +1,10 @@
+<div ng-controller="UserCtrl">
+
+  <!-- ToDo: initial fetch number should come from config -->
+  <div class="row" ng-init="fetch(4)">
+    Github User Name: <input type="text" ng-model="creds.username">
+    Github Password (optional)*: <input type="password" ng-model="creds.password">
+    * Without a pasword, Github limits new requests to 60
+
+  </div>
+</div>
