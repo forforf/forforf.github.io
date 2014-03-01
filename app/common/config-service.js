@@ -32,7 +32,7 @@ angular.module('myApp').factory('configService',
 
     cfg.fetchLimit = {};
     cfg.fetchLimit.unauth = 1;
-    cfg.fetchLimit.auth = 16;
+    cfg.fetchLimit.auth = 100;
 
     return cfg;
   }

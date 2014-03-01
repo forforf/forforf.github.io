@@ -66,7 +66,6 @@ angular.module('myApp').factory('repoService',
 
     function defaultFetchLimit(){
       var defaultFetchLimit = configService.fetchLimit.unauth;
-      console.log('pw', credsService.password);
       if (credsService.password && credsService.password.length>0){
         defaultFetchLimit = configService.fetchLimit.auth;
       }
@@ -77,13 +76,14 @@ angular.module('myApp').factory('repoService',
 
       apiFetchLimit = apiFetchLimit || defaultFetchLimit();
 
+
       var initFilters = [
         {sort: configService.repoSort, per_page: apiFetchLimit}
       ];
       //var initFilters = [];
 
       var baseFilters = [
-        slicerFn(0,20)
+        slicerFn(0,100)
       ];
 
       var allFilters = initFilters.concat(baseFilters);
