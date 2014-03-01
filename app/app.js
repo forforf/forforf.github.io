@@ -33,6 +33,7 @@ function RepoCtrl($scope, repoService, configService, credsService) {
   $scope.apiRateLimit.url = 'app/api-rate-limit/api-rate-limit.html';
 
   $scope.user = {};
+  $scope.user.name = credsService.username;
   $scope.user.url = 'app/user/user.html';
 
 
