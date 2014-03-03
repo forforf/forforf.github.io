@@ -39,7 +39,9 @@
     <script src="app/common/config-service.js"></script>
     <script src="app/common/creds-service.js"></script>
     <script src="app/dashboard/dashboard-controller.js"></script>
-    <script src="app/api-rate-limit/api-rate-limit-controller.js"></script>
+    <script src="app/repo-stats/repo-stat-service.js"></script>
+    <script src="app/repo-stats/api-rate-limit-controller.js"></script>
+    <script src="app/repo-stats/total-repos-controller.js"></script>
     <script src="app/user/user-controller.js"></script>
 
   </head>
@@ -53,17 +55,15 @@
           <button ng-click="fetch()">Get repo data</button>
         </div>
         <div ng-include="apiRateLimit.url"></div>
+        <div ng-include="totalDownload.url"></div>
 
 
         <div class="row">
-            <h1 class="repo-header1">Github Repos of {{user.name}}</h1>
+            <h1 class="repo-header1">{{ mainView.name }} - {{ user.name }}</h1>
         </div>
 
         <div class="row">
           <div class="col-md-2">
-            <!--
-            <div class="sidebar-nav-fixed affix">
-            -->
               Mini Widgets to go here
 
             <ul class="nav">
@@ -83,34 +83,12 @@
 
 
           <div class="col-md-8">
-            <h3 class="repo-header1">Github Repos of {{user.name}}</h3>
 
             <div ng-include="mainView.url"></div>
-
             <!-- main window: see dashboard.html -->
-
-
-            <!--
-            <ul> Github Repos Listed
-              <li ng-repeat="repo in selectedRepos">
-                  <div>temp
-                    <div>{{repo.name}}: {{repo.url}} </div>
-                    <div>{{repo._ff_meta_.ratings}} </div>
-                  </div>
-                  <repo-ratings
-                    url="repo.url"
-                    name="repo.name"
-                    ratings="repo._ff_meta_.ratings">
-                  </repo-ratings>
-              </li>
-            </ul>
-            -->
           </div>
 
           <div class="col-md-2">
-            <!--
-            <div class="sidebar-nav-fixed affix pull-right">
-            -->
             <div class="nav nav-justified">
               Controls to go here
               <div>

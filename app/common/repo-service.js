@@ -1,7 +1,13 @@
 'use strict';
 
 angular.module('myApp').factory('repoService',
-  function($rootScope, GithubRepo, RepoMeta, configService, credsService){
+  function(
+    $rootScope,
+    GithubRepo,
+    RepoMeta,
+    configService,
+    credsService
+  ){
     var repos = {};
     repos.downloaded = {};
     repos.selected = {};
@@ -22,14 +28,24 @@ angular.module('myApp').factory('repoService',
     }
 
     function downloadRepos(creds, filters, rateLimitCallback){
-      return GithubRepo.fetcher(creds, filters);
-       // .then(setRateLimits(creds, rateLimitCallback));
+
+      return GithubRepo.fetcher(creds, filters)
+        .then(function(downloadedRepos){
+          repos.downloaded = downloadedRepos;
+          $rootScope.$broadcast('REPOS_UPDATE_DOWNLOADED');
+          return downloadedRepos;
+        });
     }
 
     function downloadMeta(rateLimitCallback){
       return RepoMeta.insertRepoMeta(repos)
     }
 
+    //We broadcast the event because
+    // a) $watch(ing) for changing in repos would spin on intermediate
+    //     changes that are not intended for the UI
+    // b) The updates propagate to services, where $watch can't be used
+    //    or at least it feels ugly.
     function setReposSelected(setRepos){
       repos.selected = setRepos;
       $rootScope.$broadcast('REPOS_UPDATE_SELECTED');
@@ -103,6 +119,7 @@ angular.module('myApp').factory('repoService',
     return {
       setSelected: setReposSelected,
       getSelected: function(){ return repos.selected },
+      getDownloaded: function(){ return repos.downloaded },
       getFinal: function(){ return repos.final },
       downloadRepo: downloadRepos,
       getRateLimits: getRateLimits,

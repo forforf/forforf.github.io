@@ -1,9 +1,9 @@
 <div ng-controller="ApiRateLimitCtrl">
   <div>
-    API requests remaining: {{rateLimit.remaining || '--'}}
+    API requests remaining: {{ rateLimit.remaining || '--'}}
   </div>
   <div>
-    Reset Time: {{rateLimit.resetTime || '--'}}
+    Reset Time: {{ resetTime || '--'}}
   </div>
 
   <!-- refactored rate limiting to be its own component, which breaks this -->

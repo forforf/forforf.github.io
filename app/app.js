@@ -28,9 +28,13 @@ function RepoCtrl($scope, repoService, configService, credsService) {
 
   $scope.mainView = {};
   $scope.mainView.url = 'app/dashboard/dashboard.html';
+  $scope.mainView.name = 'Main View';
 
   $scope.apiRateLimit = {};
-  $scope.apiRateLimit.url = 'app/api-rate-limit/api-rate-limit.html';
+  $scope.apiRateLimit.url = 'app/repo-stats/api-rate-limit.html';
+
+  $scope.totalDownload = {};
+  $scope.totalDownload.url = 'app/repo-stats/total-repos.html';
 
   $scope.user = {};
   $scope.user.name = credsService.username;
