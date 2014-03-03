@@ -61,36 +61,30 @@
 
         <div class="row">
           <div class="col-md-2">
+            <!--
             <div class="sidebar-nav-fixed affix">
+            -->
               Mini Widgets to go here
-              <div>
-                foo
-              </div>
-              <div>
-                foo
-              </div>
-              <div>
-                foo
-              </div>
-              </div>
+
+            <ul class="nav">
+              <li>
+                widg1
+              </li>
+              <li>
+                widg2
+              </li>
+
+              <li>
+                widg3
+              </li>
+            </ul>
           </div>
 
-          <div class="col-md-2 col-md-offset-10">
-            <div class="sidebar-nav-fixed affix pull-right">
-              Controls to go here
-              <div>
-                foo
-              </div>
-              <div>
-                foo
-              </div>
-              <div>
-                foo
-              </div>
-            </div>
-          </div>
 
-          <div class="col-md-8 col-md-offset-2">
+
+          <div class="col-md-8">
+            <h3 class="repo-header1">Github Repos of {{user.name}}</h3>
+
             <div ng-include="mainView.url"></div>
 
             <!-- main window: see dashboard.html -->
@@ -111,6 +105,24 @@
               </li>
             </ul>
             -->
+          </div>
+
+          <div class="col-md-2">
+            <!--
+            <div class="sidebar-nav-fixed affix pull-right">
+            -->
+            <div class="nav nav-justified">
+              Controls to go here
+              <div>
+                ctrl1
+              </div>
+              <div>
+                ctrl1
+              </div>
+              <div>
+                ctrl3
+              </div>
+            </div>
           </div>
 
 
