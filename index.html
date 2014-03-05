@@ -39,6 +39,7 @@
     <script src="app/common/config-service.js"></script>
     <script src="app/common/creds-service.js"></script>
     <script src="app/dashboard/dashboard-controller.js"></script>
+    <script src="app/dashboard/dashboard-controls-controller.js"></script>
     <script src="app/repo-stats/repo-stat-service.js"></script>
     <script src="app/repo-stats/api-rate-limit-controller.js"></script>
     <script src="app/repo-stats/total-repos-controller.js"></script>
@@ -89,19 +90,10 @@
           </div>
 
           <div class="col-md-2">
-            <div class="nav nav-justified">
-              Controls to go here
-              <div>
-                ctrl1
-              </div>
-              <div>
-                ctrl1
-              </div>
-              <div>
-                ctrl3
-              </div>
-            </div>
+            <div ng-include="mainView.controls.url"></div>
           </div>
+
+
 
 
         </div>

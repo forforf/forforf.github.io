@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('myApp').factory('repoService',
+
   function(
     $rootScope,
     GithubRepo,
@@ -8,11 +9,15 @@ angular.module('myApp').factory('repoService',
     configService,
     credsService
   ){
+
     var repos = {};
     repos.downloaded = {};
     repos.selected = {};
     repos.final = {};
     repos.rateLimit = {};
+    repos.actionReady = [];
+
+    var INITIAL_DOWNLOAD_MSG = 'REPOSERVICE_INITIAL_DOWNLOAD';
 
     //side affect function
     //ToDo: Figure out an elegant fix that will
@@ -32,7 +37,8 @@ angular.module('myApp').factory('repoService',
       return GithubRepo.fetcher(creds, filters)
         .then(function(downloadedRepos){
           repos.downloaded = downloadedRepos;
-          $rootScope.$broadcast('REPOS_UPDATE_DOWNLOADED');
+          console.log('repos downloaded', repos.downloaded);
+          $rootScope.$broadcast(INITIAL_DOWNLOAD_MSG);
           return downloadedRepos;
         });
     }
@@ -53,6 +59,7 @@ angular.module('myApp').factory('repoService',
     }
 
     function addRepoMeta(repos){
+      if(!repos.length) { return repos }
       return RepoMeta.insertRepoMeta(repos)
         .then(function(repos){
           console.log('addRepoMeta', repos);
@@ -99,8 +106,26 @@ angular.module('myApp').factory('repoService',
       //var initFilters = [];
 
       var baseFilters = [
-        slicerFn(0,100)
+        slicerFn(0,100),
+        setReposSelected,
+        //addRepoMeta
+
       ];
+
+      //Configures what information gets added
+      var credPw = credsService.password;
+      var getMetaAuth = configService.fetchMeta.auth;
+      var getMetaUnauth = configService.fetchMeta.unauth;
+      var canGetMetaAuth = (credPw && getMetaAuth);
+      var canGetMetaUnauth = (!credPw && getMetaUnauth);
+      var canGetMeta = canGetMetaAuth || canGetMetaUnauth;
+      console.log('checks', credPw, configService.fetchMeta.auth, configService.fetchMeta.unauth);
+      console.log('getAuth', canGetMetaAuth, canGetMetaUnauth, canGetMeta );
+
+      if(canGetMeta){
+        baseFilters.push(addRepoMeta);
+      }
+
 
       var allFilters = initFilters.concat(baseFilters);
       //var allFilters = cfg.allfilters();
@@ -110,13 +135,14 @@ angular.module('myApp').factory('repoService',
       return initFromRepo
         //.then(getRateLimits)
         //.then(setDownloadedRepos)
-        .then(setReposSelected)
-        .then(addRepoMeta)
+        //.then(setReposSelected)
+        //.then(addRepoMeta)
         .then(doneFetching)
       ;
     }
 
     return {
+      INITIAL_DOWNLOAD_MSG: INITIAL_DOWNLOAD_MSG,
       setSelected: setReposSelected,
       getSelected: function(){ return repos.selected },
       getDownloaded: function(){ return repos.downloaded },
@@ -124,7 +150,8 @@ angular.module('myApp').factory('repoService',
       downloadRepo: downloadRepos,
       getRateLimits: getRateLimits,
       addRepoMeta: addRepoMeta,
-      fetch: repoFetch
+      fetch: repoFetch,
+      actionReady: repos.actionReady
 
     }
 

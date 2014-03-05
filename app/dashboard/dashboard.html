@@ -9,9 +9,21 @@
             {{repo.description | limitTo:panelDescriptionLength }}
           </span>
         </div>
-        <repo-graph class="chart" ratings="repo._ff_meta_.ratings">
-        </repo-graph>
-        {{ progressClass(repo) }}
+
+        <div ng-show="repo._ff_meta_">
+          <repo-graph class="chart" ratings="repo._ff_meta_.ratings">
+          </repo-graph>
+          {{ progressClass(repo) }}
+        </div>
+
+        <div>
+          <input type="checkbox" ng-click="actionizeRepo(repo)">
+          <label>
+            {{ do.fetchMeta &&
+               do.somethingElse
+               ? 'Do Actions!' : 'Select for Action' }}
+          </label>
+        </div>
       </div>
 
     </li>

@@ -31,8 +31,16 @@ angular.module('myApp').factory('configService',
     cfg.repoSort = 'updated';
 
     cfg.fetchLimit = {};
-    cfg.fetchLimit.unauth = 1;
+    cfg.fetchLimit.unauth = 50;
     cfg.fetchLimit.auth = 100;
+
+    cfg.fetchMeta = {};
+    cfg.fetchMeta.unauth = false;
+    cfg.fetchMeta.auth = true;
+
+    cfg.do = {};
+    cfg.do.fetchMeta = false; //default
+
 
     return cfg;
   }

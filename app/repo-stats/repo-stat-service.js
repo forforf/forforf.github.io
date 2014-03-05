@@ -25,7 +25,8 @@ angular.module('myApp').factory('repoStatService',
         }, 1000);
     });
 
-    $rootScope.$on('REPOS_UPDATE_DOWNLOADED', function(){
+    $rootScope.$on(repoService.INITIAL_DOWNLOAD_MSG, function(){
+      console.log('Initial download message received');
       stats.repos.total.downloaded =  repoService.getDownloaded().length;
       console.log('stat repos total', stats.repos.total);
     });
