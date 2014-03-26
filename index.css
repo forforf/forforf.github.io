@@ -57,3 +57,12 @@ a.repo-ratings:hover{
 .panel .inactive {
     background-color: #fee5e9;
 }
+
+.data-control {
+    font-size: 0.8em;
+}
+
+.config input[type=number]{
+    margin: auto;
+    max-width: 3.5em;
+}

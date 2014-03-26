@@ -1,5 +1,6 @@
-  <ul ng-controller="DashboardCtrl">
-    <li class="repo-item" ng-repeat="repo in repos.selected">
+<div ng-controller="DashboardCtrl">
+  <ul>
+    <li class="repo-item" ng-repeat="repo in repos.render">
       <div class="panel panel-default">
         <div class="panel-label {{ progressClass(repo) }}">
           <a target="_blank" href="{{repo.html_url}}">{{ repo.name }}</a>
@@ -28,3 +29,7 @@
 
     </li>
   </ul>
+  <button ng-click="renderPrev()">Prev</button>
+  <button ng-click="renderNext()">Next</button>
+
+</div>

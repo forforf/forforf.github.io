@@ -1,12 +1,50 @@
 <div ng-controller="DashboardControlsCtrl">
-  <div class="nav nav-justified">
-    <ul> <h4>Actions!</h4>
-      <li>
+  <div class="nav nav-justified data-control">
+    <h3>Data Control</h3>
+    <ul class="list-group"> <h4>Select</h4>
+      <li class="list-group-item">
+        <input
+          type="checkbox"
+          ng-model="selectViewChecked"
+          ng-click="selectViewRepos()">
+        <label>{{ repoStats.viewed }} in viewport </label>
+      </li>
+      <li class="list-group-item">
+        <input
+          type="checkbox"
+          ng-model="selectAllChecked"
+          ng-click="selectAllRepos()">
+        <label>All {{ repoStats.downloaded }} Downloaded </label>
+      </li>
+    </ul>
+    <ul class="list-group" > <h4>Apply</h4>
+      <li class="list-group-item">
         <input
           type="checkbox"
           ng-model="do.fetchMeta"
           ng-click="doActions('addRepoMeta')">
-        <label>get .repo-meta.yml </label>
+        <label>.repo-meta.yml data</label>
+      </li>
+    </ul>
+    <ul class="list-group config" > <h4>Config</h4>
+      <li class="list-group-item">
+        <input
+          type="number"
+          ng-model="viewPort.limit"
+          ng-pattern="/^\d+$/">
+        <label>Repos in View</label>
+      </li>
+      <li class="list-group-item">
+        <input
+          type="number"
+          ng-model="fetchLimit.unauth">
+        <label>Repos to get (unauth)</label>
+      </li>
+      <li class="list-group-item">
+        <input
+          type="number"
+          ng-model="fetchLimit.auth">
+        <label>Repos to get (authed)</label>
       </li>
     </ul>
   </div>

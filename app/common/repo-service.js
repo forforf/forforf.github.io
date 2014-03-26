@@ -13,6 +13,7 @@ angular.module('myApp').factory('repoService',
     var repos = {};
     repos.downloaded = {};
     repos.selected = {};
+    repos.inView = {};
     repos.final = {};
     repos.rateLimit = {};
     repos.actionReady = [];
@@ -70,6 +71,9 @@ angular.module('myApp').factory('repoService',
 
     function slicerFn(start, stop){
       return function(repos){
+        if(!repos || !repos.length){
+          return [];
+        }
         return(repos.slice(start, stop+1));
       };
     }
@@ -107,7 +111,7 @@ angular.module('myApp').factory('repoService',
 
       var baseFilters = [
         slicerFn(0,100),
-        setReposSelected,
+        setReposSelected
         //addRepoMeta
 
       ];
@@ -152,7 +156,6 @@ angular.module('myApp').factory('repoService',
       addRepoMeta: addRepoMeta,
       fetch: repoFetch,
       actionReady: repos.actionReady
-
     }
 
   }

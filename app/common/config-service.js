@@ -34,12 +34,21 @@ angular.module('myApp').factory('configService',
     cfg.fetchLimit.unauth = 50;
     cfg.fetchLimit.auth = 100;
 
+
+
     cfg.fetchMeta = {};
     cfg.fetchMeta.unauth = false;
     cfg.fetchMeta.auth = true;
 
+    cfg.viewPort = {};
+    cfg.viewPort.limit = 8;
+
     cfg.do = {};
     cfg.do.fetchMeta = false; //default
+
+    cfg.select = {}
+    cfg.select.all = false; //default
+
 
 
     return cfg;
