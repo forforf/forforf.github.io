@@ -11,9 +11,16 @@ angular.module('myApp').controller('DashboardControlsCtrl',
 
     $scope.selectAllChecked = false; //default
 
+    //Apply
+
+    //Sort
+
+
     //Config
     $scope.viewPort = configService.viewPort;
     $scope.fetchLimit = configService.fetchLimit;
+
+
 
     $scope.doActions = function(action){
       if(repoService.actionReady.length){

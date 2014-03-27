@@ -1,31 +1,23 @@
 <div ng-controller="DashboardControlsCtrl">
   <div class="nav nav-justified data-control">
     <h3>Data Control</h3>
-    <ul class="list-group"> <h4>Select</h4>
-      <li class="list-group-item">
-        <input
-          type="checkbox"
-          ng-model="selectViewChecked"
-          ng-click="selectViewRepos()">
-        <label>{{ repoStats.viewed }} in viewport </label>
-      </li>
-      <li class="list-group-item">
-        <input
-          type="checkbox"
-          ng-model="selectAllChecked"
-          ng-click="selectAllRepos()">
-        <label>All {{ repoStats.downloaded }} Downloaded </label>
-      </li>
-    </ul>
+
     <ul class="list-group" > <h4>Apply</h4>
       <li class="list-group-item">
         <input
           type="checkbox"
-          ng-model="do.fetchMeta"
-          ng-click="doActions('addRepoMeta')">
-        <label>.repo-meta.yml data</label>
+          ng-model="do.fetchMeta">
+        <label>Custom Meta Data (changing has no affect)</label>
       </li>
     </ul>
+
+    <ul class="list-group config" > <h4>Sort</h4>
+      <li class="list-group-item">
+        <input
+        <label>TBD</label>
+      </li>
+    </ul>
+
     <ul class="list-group config" > <h4>Config</h4>
       <li class="list-group-item">
         <input

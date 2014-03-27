@@ -11,7 +11,7 @@ angular.module('myApp').factory('configService',
       if (!Object.keys(obj).length ) {
         return [];
       }
-      var name = Object.keys(obj).map(function(k){ return k.toString(); })
+      var name = Object.keys(obj).map(function(k){ return k.toString(); });
       return name;
     }
 
@@ -44,9 +44,10 @@ angular.module('myApp').factory('configService',
     cfg.viewPort.limit = 8;
 
     cfg.do = {};
+
     cfg.do.fetchMeta = false; //default
 
-    cfg.select = {}
+    cfg.select = {};
     cfg.select.all = false; //default
 
 

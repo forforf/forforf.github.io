@@ -9,10 +9,12 @@ angular.module('myApp').controller('DashboardCtrl',
 
     $scope.repos = {};
 
-    $scope.renderLimit = configService.viewPort.limit;
+    $scope.viewPort = configService.viewPort;
 
     function reposInView(fullSetRepos){
-      if(!fullSetRepos){
+
+      console.log('fullsetRepos - should be array', fullSetRepos);
+      if(!fullSetRepos || fullSetRepos.status === 403 ){
         return [];
       }
 
@@ -21,7 +23,7 @@ angular.module('myApp').controller('DashboardCtrl',
       if(repoIndex>=len){ repoIndex = len-1 }
       if(repoIndex<0){ repoIndex = 0 }
 
-      var limit = $scope.renderLimit || len;
+      var limit = $scope.viewPort.limit || len;
 
       return fullSetRepos.slice(repoIndex, repoIndex+limit);
     }
@@ -32,7 +34,7 @@ angular.module('myApp').controller('DashboardCtrl',
     }
 
     function reRender(next){
-      var limit = $scope.renderLimit;
+      var limit = $scope.viewPort.limit;
       var increment = next ? limit : -limit;
       repoIndex += increment;
       updateView()
@@ -90,6 +92,8 @@ angular.module('myApp').controller('DashboardCtrl',
     };
 
     $scope.$on('REPOS_UPDATE_DONE', function(val){
+      //check to see if we should pull repo-meta data
+
       // should we reset index on update or no?
       repoIndex = 0;
       updateView();

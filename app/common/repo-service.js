@@ -88,6 +88,7 @@ angular.module('myApp').factory('repoService',
 
     function doneFetching(fetchedRepos){
       repos.final = fetchedRepos;
+
       $rootScope.$broadcast('REPOS_UPDATE_DONE')
     }
 
@@ -99,10 +100,18 @@ angular.module('myApp').factory('repoService',
       return defaultFetchLimit;
     }
 
+    //ToDo: Allow user to override in subsequent fetches
+    function setFetchMeta(){
+      if (credsService.password && credsService.password.length>0){
+        configService.do.fetchMeta = true;
+      } else {
+        configService.do.fetchMeta = false;
+      }
+    }
+
     function repoFetch(apiFetchLimit){
 
       apiFetchLimit = apiFetchLimit || defaultFetchLimit();
-
 
       var initFilters = [
         {sort: configService.repoSort, per_page: apiFetchLimit}
@@ -116,16 +125,11 @@ angular.module('myApp').factory('repoService',
 
       ];
 
-      //Configures what information gets added
-      var credPw = credsService.password;
-      var getMetaAuth = configService.fetchMeta.auth;
-      var getMetaUnauth = configService.fetchMeta.unauth;
-      var canGetMetaAuth = (credPw && getMetaAuth);
-      var canGetMetaUnauth = (!credPw && getMetaUnauth);
-      var canGetMeta = canGetMetaAuth || canGetMetaUnauth;
-      console.log('checks', credPw, configService.fetchMeta.auth, configService.fetchMeta.unauth);
-      console.log('getAuth', canGetMetaAuth, canGetMetaUnauth, canGetMeta );
+      // setting fetchMeta flag in shared service
+      setFetchMeta();
 
+      //using fetchMeta flag from shared service
+      var canGetMeta = configService.do && configService.do.fetchMeta;
       if(canGetMeta){
         baseFilters.push(addRepoMeta);
       }
