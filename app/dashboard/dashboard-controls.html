@@ -11,10 +11,39 @@
       </li>
     </ul>
 
-    <ul class="list-group config" > <h4>Sort</h4>
+    <ul class="list-group config" > <h4>Initial Fetch Sort</h4>
       <li class="list-group-item">
-        <input
-        <label>TBD</label>
+        <select
+          ng-model="cfgSort.initDirection"
+          ng-options="dir for dir in cfgSort.initDirectionOptions">
+          </select>
+        <label>Direction</label>
+      </li>
+      <li class="list-group-item">
+        <select
+          ng-model="cfgSort.fetch"
+          ng-options="f for f in cfgSort.fetchOptions">
+        </select>
+        <label title="Applied when fetching repo data">Github Api Keys</label>
+      </li>
+    </ul>
+    <ul class="list-group config" > <h4>In Place Sorting</h4>
+      <li class="list-group-item">
+        <select
+          ng-model="cfgSort.basic"
+          ng-options="b.label for b in cfgSort.basicOptions">
+          <option value="">-- None --</option>
+        </select>
+        <label title="Applied when fetching repo data">Repo data</label>
+      </li>
+
+      <li class="list-group-item">
+        <select
+          ng-model="cfgSort.metaProgress"
+          ng-options="mp.label for mp in cfgSort.metaProgressOptions">
+          <option value="">-- None --</option>
+        </select>
+        <label title="Applied when fetching repo data">Progress (meta) (not implemented)</label>
       </li>
     </ul>
 

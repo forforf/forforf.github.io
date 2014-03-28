@@ -113,8 +113,13 @@ angular.module('myApp').factory('repoService',
 
       apiFetchLimit = apiFetchLimit || defaultFetchLimit();
 
+      var configSort = configService.sort || {};
+
       var initFilters = [
-        {sort: configService.repoSort, per_page: apiFetchLimit}
+        {
+          sort: configSort.fetch || '',
+          direction: configSort.initDirection || '',
+          per_page: apiFetchLimit || ''}
       ];
       //var initFilters = [];
 

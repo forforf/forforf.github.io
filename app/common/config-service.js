@@ -28,7 +28,38 @@ angular.module('myApp').factory('configService',
       return name || "";
     };
 
-    cfg.repoSort = 'updated';
+    //sorting
+    cfg.sort = {};
+
+    //options provided by Github API
+    cfg.sort.fetchOptions = ['updated', 'pushed', 'full_name'];
+    cfg.sort.fetch = 'updated';
+    cfg.sort.initDirectionOptions = ['asc', 'desc'];
+    cfg.sort.initDirection = 'desc';
+
+    cfg.sort.basicOptions = [
+      { label: 'created', repoKey: 'created_at' },
+      { label: 'full name', repoKey: 'full_name' },
+      { label: 'is a fork', repoKey: 'fork' },
+      { label: 'name', repoKey: 'name' },
+      { label: 'num times forked', repoKey: 'forks_count' },
+      { label: 'open issues', repoKey: 'pen_issues_count' },
+      { label: 'size', repoKey: 'size' },
+      { label: 'stars', repoKey: 'stargazers_count' },
+      { label: 'wathcers', repoKey: 'watchers_count' }
+    ];
+
+    cfg.sort.basic = {};
+
+    // Future: Metadata sort is dynamically created, not configured
+    // and is added to the basic Options
+    cfg.sort.metaProgressOptions  = [
+      { label: 'stable (meta)', repoKey: 'stable' },
+      { label: 'in development (meta)', repoKey: 'in-development' },
+      { label: 'inactive (meta)', repoKey: 'inactive' }
+    ];
+    cfg.sort.metaProgress = {};
+
 
     cfg.fetchLimit = {};
     cfg.fetchLimit.unauth = 50;
@@ -49,6 +80,7 @@ angular.module('myApp').factory('configService',
 
     cfg.select = {};
     cfg.select.all = false; //default
+
 
 
 

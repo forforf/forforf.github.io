@@ -1,7 +1,9 @@
 <div ng-controller="DashboardCtrl">
   <ul>
-    <li class="repo-item" ng-repeat="repo in repos.render">
-      <div class="panel panel-default">
+    <li
+      class="repo-item"
+      ng-repeat="repo in repos.render | orderBy:cfgSort.basic.repoKey">
+      <div ng-click="clickTest(repo, $event)" class="panel panel-default">
         <div class="panel-label {{ progressClass(repo) }}">
           <a target="_blank" href="{{repo.html_url}}">{{ repo.name }}</a>
           <span ng-show="repo.fork">(fork)</span>

@@ -9,7 +9,14 @@ angular.module('myApp').controller('DashboardCtrl',
 
     $scope.repos = {};
 
-    $scope.viewPort = configService.viewPort;
+    $scope.viewPort = configService.viewPort || {};
+
+    $scope.cfgSort = configService.sort || {};
+
+
+    $scope.clickTest = function(a, b, c){
+      console.log('clickTest', b.target.className, a, b );
+    };
 
     function reposInView(fullSetRepos){
 

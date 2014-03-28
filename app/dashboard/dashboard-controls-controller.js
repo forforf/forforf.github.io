@@ -11,9 +11,12 @@ angular.module('myApp').controller('DashboardControlsCtrl',
 
     $scope.selectAllChecked = false; //default
 
+    $scope.cfgSort = configService.sort;
+
     //Apply
 
     //Sort
+
 
 
     //Config
