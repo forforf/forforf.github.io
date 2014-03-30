@@ -19,9 +19,12 @@ angular.module('myApp').factory('configService',
     //ToDo: Get config from a ng-model
     var cfg = {};
 
+    //ToDo: expose this via the repo-fetcher-meta module
+    cfg.repoMetaKey = '_ff_meta_';
+
     cfg.panelDescriptionLength = 40;
     cfg.progressClass = function(repo){
-      var name = repo._ff_meta_ && repo._ff_meta_.progress;
+      var name = repo[cfg.repoMetaKey] && repo[cfg.repoMetaKey].progress;
       if (name) {
         return getChildNames(name)[0].replace(/\s/g, "-");
       }
@@ -46,19 +49,39 @@ angular.module('myApp').factory('configService',
       { label: 'open issues', repoKey: 'pen_issues_count' },
       { label: 'size', repoKey: 'size' },
       { label: 'stars', repoKey: 'stargazers_count' },
-      { label: 'wathcers', repoKey: 'watchers_count' }
+      { label: 'watchers', repoKey: 'watchers_count' }
     ];
 
+    //used by all sorters, basic and metadata
     cfg.sort.basic = {};
 
     // Future: Metadata sort is dynamically created, not configured
     // and is added to the basic Options
-    cfg.sort.metaProgressOptions  = [
-      { label: 'stable (meta)', repoKey: 'stable' },
-      { label: 'in development (meta)', repoKey: 'in-development' },
-      { label: 'inactive (meta)', repoKey: 'inactive' }
+    cfg.sort.metaOptions  = [
+      { label: 'progress', repoKey: 'meta:progress'}
     ];
-    cfg.sort.metaProgress = {};
+
+    //not really happy about this approach as it breaks the dynamicism
+    // reverse order so a non-existent index of -1 is automatically ordered
+    cfg.sort.metaProgressOrderFn = function(progressVal){
+      if(!progressVal){
+        return 999;
+      }
+
+      if(progressVal.match(/stable/)){
+        return 1;
+      }
+
+      if(progressVal.match(/in.development/)){
+        return 2;
+      }
+
+      if(progressVal.match(/inactive/)){
+        return 3;
+      }
+
+      return 4;
+    };
 
 
     cfg.fetchLimit = {};

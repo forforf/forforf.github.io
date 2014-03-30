@@ -11,11 +11,11 @@ angular.module('myApp').factory('repoService',
   ){
 
     var repos = {};
-    repos.downloaded = {};
-    repos.selected = {};
-    repos.inView = {};
-    repos.final = {};
-    repos.rateLimit = {};
+    repos.downloaded = [];
+    repos.selected = [];
+    repos.inView = [];
+    repos.final = [];
+    repos.rateLimit = [];
     repos.actionReady = [];
 
     var INITIAL_DOWNLOAD_MSG = 'REPOSERVICE_INITIAL_DOWNLOAD';
