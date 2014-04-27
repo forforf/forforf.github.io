@@ -95,7 +95,7 @@ angular.module('myApp').factory('configService',
     cfg.fetchMeta.auth = true;
 
     cfg.viewPort = {};
-    cfg.viewPort.limit = 8;
+    cfg.viewPort.limit = 12;
 
     cfg.do = {};
 

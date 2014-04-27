@@ -50,55 +50,58 @@
   <body ng-app="myApp">
     <div ng-controller="RepoCtrl">
       <div class="container-fluid">
-        <div class="row" ng-init="fetch()">
-          <div ng-include="user.url"></div>
-
-          <button ng-click="fetch()">Get repo data</button>
-        </div>
-        <div ng-include="apiRateLimit.url"></div>
-        <div ng-include="totalDownload.url"></div>
-
-
         <div class="row">
-            <h1 class="repo-header1">{{ mainView.name }} - {{ user.name }}</h1>
-        </div>
+          <div class="col-md-9">
+            <div class="container">
+              <div class="row" ng-init="fetch()">
+                <div class="col-md-3">
+                  <div ng-include="apiRateLimit.url"></div>
+                  <div ng-include="totalDownload.url"></div>
+                  <button ng-click="fetch()">Get repo data</button>
+                </div>
 
-        <div class="row">
-          <div class="col-md-2">
-              Mini Widgets to go here
+                <div class="col-md-4">
+                  <div ng-include="user.url"></div>
+                </div>
+              </div>
 
-            <ul class="nav">
-              <li>
-                widg1
-              </li>
-              <li>
-                widg2
-              </li>
+              <div class="row">
+                <h1 class="repo-header1">{{ mainView.name }} - {{ user.name }}</h1>
+              </div>
 
-              <li>
-                widg3
-              </li>
-            </ul>
+              <div class="row">
+                <!--
+                <div class="col-md-2">
+                    Mini Widgets to go here
+
+                  <ul class="nav">
+                    <li>
+                      widg1
+                    </li>
+                    <li>
+                      widg2
+                    </li>
+
+                    <li>
+                      widg3
+                    </li>
+                  </ul>
+                </div>
+                -->
+                <div class="col-md-12">
+
+                  <!-- main window: see dashboard.html -->
+                  <div ng-include="mainView.url"></div>
+
+                </div>
+              </div>
+            </div>
           </div>
-
-
-
-          <div class="col-md-8">
-
-            <div ng-include="mainView.url"></div>
-            <!-- main window: see dashboard.html -->
-          </div>
-
-          <div class="col-md-2">
+          <div class="col-md-3">
             <div ng-include="mainView.controls.url"></div>
           </div>
-
-
-
-
         </div>
       </div>
     </div>
-  </div>
-</body>
+  </body>
 </html>
