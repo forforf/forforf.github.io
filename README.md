@@ -6,4 +6,4 @@ TODO: Migrate to color scheme:
 
 [gist](https://gist.github.com/forforf/f811cbb630b6419d3628f8bf26636e9d)
 
-[CodePen](https://codepen.io/ragnarok12/pen/Hwnip)
+[CodePen](https://codepen.io/anon/pen/ZppEbv)
